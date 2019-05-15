@@ -25,7 +25,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
-
+//根据目的IP或域名和端口，创建TCPsocket并连接目的地址，返回socket
 int Socket(const char *host, int clientPort)
 {
     int sock;
@@ -40,17 +40,18 @@ int Socket(const char *host, int clientPort)
     if (inaddr != INADDR_NONE)
         memcpy(&ad.sin_addr, &inaddr, sizeof(inaddr));
     else
-    {
+    {//输入为域名时，获取地址
         hp = gethostbyname(host);
         if (hp == NULL)
             return -1;
         memcpy(&ad.sin_addr, hp->h_addr, hp->h_length);
     }
     ad.sin_port = htons(clientPort);
-    
+    //创建TCPsocket
     sock = socket(AF_INET, SOCK_STREAM, 0);
     if (sock < 0)
         return sock;
+    //连接目的地址
     if (connect(sock, (struct sockaddr *)&ad, sizeof(ad)) < 0)
         return -1;
     return sock;

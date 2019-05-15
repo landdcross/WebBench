@@ -81,7 +81,7 @@ static void alarm_handler(int signal)
 {
     timerexpired=1;
 }	
-
+//命令用法提示
 static void usage(void)
 {
     fprintf(stderr,
@@ -114,7 +114,7 @@ int main(int argc, char *argv[])
         usage();
         return 2;
     } 
-
+    //解析输入命令带的参数
     while((opt=getopt_long(argc,argv,"912Vfrt:p:c:?h",long_options,&options_index))!=EOF )
     {
         switch(opt)
@@ -214,7 +214,7 @@ int main(int argc, char *argv[])
     
     return bench();
 }
-
+//构造访问请求数据
 void build_request(const char *url)
 {
     char tmp[10];
@@ -357,7 +357,7 @@ static int bench(void)
         pid=fork();
         if(pid <= (pid_t) 0)
         {
-            /* child process or error*/
+            /* child process or error*///fork失败则退出创建循环，由外部处理；子进程也退出创建循环
             sleep(1); /* make childs faster */
             break;
         }
